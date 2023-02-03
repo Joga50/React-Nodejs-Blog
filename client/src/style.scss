@@ -1,8 +1,17 @@
-$lightGreen: #b9e7e7;
+$lightGreen: #a6dde4;
 
 .app {
+  display: flex;
+  justify-content: center;
+
   .container {
+    width: 1024px;
     // LOGIN & REGISTER
+
+    .link {
+      text-decoration: none;
+      color: inherit;
+    }
 
     .auth {
       display: flex;
@@ -11,33 +20,100 @@ $lightGreen: #b9e7e7;
       justify-content: center;
       height: 100vh;
       background-color: $lightGreen;
-    }
 
-    h1 {
-      font-size: 20px;
-      color: teal;
-      margin-bottom: 20px;
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      padding: 10px;
-      background-color: beige;
-      width: 200px;
-      gap: 20px;
-
-      input {
-        padding: 10px;
-        border: none;
-        border-bottom: 1px solid gray;
+      h1 {
+        font-size: 20px;
+        color: teal;
+        margin-bottom: 20px;
       }
-      button {
+
+      form {
+        display: flex;
+        flex-direction: column;
         padding: 10px;
-        border: none;
-        background-color: teal;
-        color: beige;
-        cursor: pointer;
+        background-color: beige;
+        width: 200px;
+        gap: 20px;
+
+        input {
+          padding: 10px;
+          border: none;
+          border-bottom: 1px solid gray;
+        }
+        button {
+          padding: 10px;
+          border: none;
+          background-color: teal;
+          color: beige;
+          cursor: pointer;
+        }
+        p {
+          font-size: 12px;
+          color: red;
+          text-align: center;
+        }
+
+        span {
+          font-size: 12px;
+          text-align: center;
+        }
+      }
+    }
+
+    // NAVBAR
+    .navbar {
+      .container {
+        padding: 10px 0px;
+        display: flex;
+        justify-content: space-between;
+        .logo {
+          img {
+            width: 120px;
+          }
+        }
+        .links {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+
+          h6 {
+            font-size: 16px;
+            font-weight: 300;
+          }
+          span {
+            cursor: pointer;
+          }
+          .write {
+            background-color: $lightGreen;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 300;
+            border: 1px solid white;
+
+            &:hover {
+              color: teal;
+              background-color: white;
+              border: 1px solid teal;
+            }
+          }
+        }
+      }
+    }
+    // FOOTER
+    footer {
+      margin-top: 100px;
+      padding: 20px;
+      background-color: $lightGreen;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      img {
+        height: 50px;
       }
     }
   }
