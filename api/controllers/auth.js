@@ -1,5 +1,6 @@
 import { database } from "../database.js";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export const register = (req, res) => {
   // CHECK EXISTING USER
@@ -26,6 +27,34 @@ export const register = (req, res) => {
   });
 };
 
-export const login = (req, res) => {};
+export const login = (req, res) => {
+  // CHECK USER
+
+  const q = "SELECT * FROM users WHERE useranme = ?";
+
+  database.query(q, [req.body.username], (err, data) => {
+    if (err) return res.json(err);
+    if (data.length === 0) return res.status(404).json("user not found");
+
+    // CHECK PASS WITH AXIOS CHECK NPM DOCS
+
+    const isPassCorrect = bcrypt.compareSync(
+      re.body.password,
+      data[0].password
+    );
+
+    if (!isPassCorrect) return res.status(400).json("wrong user or pass");
+
+    const token = jwt.sign({ id: data[0].id }, "jwtkey");
+    const { password, ...other } = data[0];
+
+    res
+      .cookie("access_token", token, {
+        httpOnly: true,
+      })
+      .status(200)
+      .json(other);
+  });
+};
 
 export const logout = (req, res) => {};
