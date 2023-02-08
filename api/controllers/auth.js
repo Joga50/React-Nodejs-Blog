@@ -30,7 +30,7 @@ export const register = (req, res) => {
 export const login = (req, res) => {
   // CHECK USER
 
-  const q = "SELECT * FROM users WHERE useranme = ?";
+  const q = "SELECT * FROM users WHERE username = ?";
 
   database.query(q, [req.body.username], (err, data) => {
     if (err) return res.json(err);
@@ -39,7 +39,7 @@ export const login = (req, res) => {
     // CHECK PASS WITH AXIOS CHECK NPM DOCS
 
     const isPassCorrect = bcrypt.compareSync(
-      re.body.password,
+      req.body.password,
       data[0].password
     );
 
@@ -57,4 +57,12 @@ export const login = (req, res) => {
   });
 };
 
-export const logout = (req, res) => {};
+export const logout = (req, res) => {
+  res
+    .clearCookie("access_token", {
+      sameSite: "none",
+      secure: true,
+    })
+    .status(200)
+    .json("user has been logged out");
+};
