@@ -24,7 +24,28 @@ export const getPost = (req, res) => {
 };
 
 export const addPost = (req, res) => {
-  res.json(" fromcontroller");
+  const token = req.cookies.access_token;
+  if (!token) return res.status(401).json("Noth authenitcated!");
+
+  jwt.verify(token, "jwtkey", (err, userInfo) => {
+    if (err) return res.status(403).json("token not valid");
+
+    const q =
+      "INSERT INTO posts(`title`, `desc`, `img`, `category`, `date`. `uid` VALUES (?))";
+
+    const values = [
+      req.body.title,
+      req.body.desc,
+      req.body.img,
+      req.body.category,
+      req.body.date,
+      userInfo.id,
+    ];
+    database.query(q, [values], (err, data) => {
+      if (err) return res.status(500).json(err);
+      return res.json("Post has been created");
+    });
+  });
 };
 // DELETE
 export const deletePost = (req, res) => {
@@ -45,5 +66,28 @@ export const deletePost = (req, res) => {
   });
 };
 export const updatePost = (req, res) => {
-  res.json(" fromcontroller");
+  const token = req.cookies.access_token;
+  if (!token) return res.status(401).json("Noth authenitcated!");
+
+  jwt.verify(token, "jwtkey", (err, userInfo) => {
+    if (err) return res.status(403).json("token not valid");
+
+    postId = req.params.id;
+
+    const q =
+      "UPDATE posts SET `title` = ?, `desc` = ?, `img` = ?, `category` = ? WHERE `id` = ? AND `uid` = ?";
+
+    const values = [
+      req.body.title,
+      req.body.desc,
+      req.body.img,
+      req.body.category,
+
+      userInfo.id,
+    ];
+    database.query(q, [...values, postId, userInfo.id], (err, data) => {
+      if (err) return res.status(500).json(err);
+      return res.json("Post has been updated");
+    });
+  });
 };
