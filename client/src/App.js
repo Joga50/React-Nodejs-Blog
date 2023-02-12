@@ -1,9 +1,4 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-  Outlet,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { Register, Login, Write, Home, Single } from "./pages";
 import { Navbar, Footer } from "./components";
 import "./style.css";

@@ -1,77 +1,70 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Menu from "../components/Menu";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
+import moment from "moment";
+import { AuthContext } from "../context/authContext";
 
 function Single() {
+  const [post, setPost] = useState({});
+
+  const category = useLocation();
+  const navigate = useNavigate();
+
+  const postId = category.pathname.split("/")[2];
+
+  const { currentUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`/posts/${postId}`);
+        setPost(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
+  }, [postId]);
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`/posts/${postId}`);
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="single">
       <div className="content">
-        <img
-          src="https://www.lanc.org.uk/wp-content/uploads/2011/07/ASD.png"
-          alt=""
-        />
+        <img src={post?.img} alt="asdasda" />
         <div className="user">
-          <img
-            src="https://www.lanc.org.uk/wp-content/uploads/2011/07/ASD.png"
-            alt=""
-          />
+          {post.userImg && <img src={post.userImg} alt="" />}
           <div className="info">
-            <span>jose</span>
-            <p>Postaed 2 days ago</p>
+            <span>{post.username}</span>
+            <p>Posted {moment(post.date).fromNow()}</p>
           </div>
-          <div className="edit">
-            <Link to={`/write?edit=2`}>
-              <i class="bx bx-edit"></i>
-            </Link>
-            <i class="bx bx-trash"></i>
-          </div>
+          {currentUser.username === post.username && (
+            <div className="edit">
+              <Link to={`/write?edit=2`} state={post}>
+                <i class="bx bx-edit" style={{ fontSize: "30px" }}></i>
+              </Link>
+              <i
+                onClick={handleDelete}
+                class="bx bx-trash"
+                style={{ fontSize: "30px", marginLeft: "5px" }}
+              ></i>
+            </div>
+          )}
         </div>
-        <h1>
-          aaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdkjadsglkjasdgkajdsgñlkadsjgñlkadgjasgsgasdga
-        </h1>
-        <p>
-          aaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdkjadsglkjasdgkajdsgñlkadsjgñlkadg
-          jasgsgasdgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdkjadsglkjasdgkajdsgñlk
-          adsjgñlkadgjasgsgasdgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdkjadsglkjas
-          dgkajdsgñlkadsjgñlkadgjasgsgasdgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasd
-          kjadsglkjasdgkajdsgñlkadsjgñlkadgjasgsgasdgaaaaaaaaaaaaaaaaaaaaaa
-          aaaaaaaaasdkjadsglkjasdgkajdsgñlkadsjgñlkadgjasgsgasdgaaaaaaaaaaa
-          aaaaaaaaaaaaaaaaaaaasdkjadsglkjasdgkajdsgñlkadsjgñlkadgjasgsgasdg
-          aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdkjadsglkjasdgkajdsgñlkadsjgñlkad
-          gjasgsgasdgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdkjadsglkjasdgkajdsgñl
-          kadsjgñlkadgjasgsgasdgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdkjadsglkja
-          sdgkajdsgñlkadsjgñlkadgjasgsgasdgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas
-          dkjadsglkjasdgkajdsgñlkadsjgñlkadgjasgsgasdgaaaaaaaaaaaaaaaaaaaaa
-          aaaaaaaaaasdkjadsglkjasdgkajdsgñlkadsjgñlkadgjasgsgasdgaaaaaaaaaaa
-          aaaaaaaaaaaaaaaaaaaasdkjadsglkjasdgkajdsgñlkadsjgñlkadgjasgsgasdga
-          aaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdkjadsglkjasdgkajdsgñlkadsjgñlkadgj
-          <br></br>
-          asgsgasdgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdkjadsglkjasdgkajdsgñlkad
-          sjgñlkadgjasgsgasdgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdkjadsglkjasdgk
-          ajdsgñlkadsjgñlkadgjasgsgasdgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdkjad
-          sglkjasdgkajdsgñlkadsjgñlkadgjasgsgasdgaaaaaaaaaaaaaaaaaaaaaaaaaaa
-          aaaasdkjadsglkjasdgkajdsgñlkadsjgñlkadgjasgsgasdgaaaaaaaaaaaaaaaaa
-          aaaaaaaaaaaaaasdkjadsglkjasdgkajdsgñlkadsjgñlkadgjasgsgasdgaaaaaaa
-          aaaaaaaaaaaaaaaaaaaaaaaasdkjadsglkjasdgkajdsgñlkadsjgñlkadgjasgsga
-          sdgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdkjadsglkjasdgkajdsgñlkadsjgñlk
-          adgjasgsgasdgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdkjadsglkjasdgkajdsgñ
-          lkadsjgñlkadgjasgsgasdgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdkjadsglkja
-          sdgkajdsgñlkadsjgñlkadgjasgsgasdgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasd
-          kjadsglkjasdgkajdsgñlkadsjgñlkadgjasgsgasdgaaaaaaaaaaaaaaaaaaaaaaa
-          aaaaaaaasdkjadsglkjasdgkajdsgñlkadsjgñlkadgjasgsgasdgaaaaaaaaaaaaa
-          aaaaaaaaaaaaaaaaaasdkjadsglkjasdgkajdsgñlkadsjgñlkadgjasgsgasdgaaa
-          aaaaaaaaaaaaaaaaaaaaaaaaaaaasdkjadsglkjasdgkajdsgñlkadsjgñlkadgjas
-          gsgasdgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdkjadsglkjasdgkajdsgñlkadsj
-          gñlkadgjasgsgasdgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdkjadsglkjasdgkaj
-          dsgñlkadsjgñlkadgjasgsgasdgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdkjadsg
-          lkjasdgkajdsgñlkadsjgñlkadgjasgsgasdgaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-          aasdkjadsglkjasdgkajdsgñlkadsjgñlkadgjasgsgasdgaaaaaaaaaaaaaaaaaaa
-          aaaaaaaaaaaasdkjadsglkjasdgkajdsgñlkadsjgñlkadgjasgsgasdgaaaaaaaaa
-          aaaaaaaaaaaaaaaaaaaasdkjadsglkjasdgkajdsgñlkadsjgñlkadgjasgsgasdga
-        </p>
-        <Menu />
+        <h1>{post.title}</h1>
+        <p>{post.desc}</p>
       </div>
-      <div className="menu"></div>
+      <Menu category={post.category} />
     </div>
   );
 }

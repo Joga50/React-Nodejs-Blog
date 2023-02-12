@@ -10,25 +10,28 @@ function Navbar() {
     <div className="navbar">
       <div className="container">
         <div className="logo">
-          <img src={Logo} alt="" />
+          <Link to="/">
+            <img src={Logo} alt="" />
+          </Link>
         </div>
+
         <div className="links">
-          <Link className="link" to="/cat=art">
+          <Link className="link" to="/?category=art">
             <h6>ART</h6>
           </Link>
-          <Link className="link" to="/cat=science">
+          <Link className="link" to="/?category=science">
             <h6>SCIENCE</h6>
           </Link>
-          <Link className="link" to="/cat=technology">
+          <Link className="link" to="/?category=technology">
             <h6>technology</h6>
           </Link>
-          <Link className="link" to="/cat=cinema">
+          <Link className="link" to="/?category=cinema">
             <h6>cinema</h6>
           </Link>
-          <Link className="link" to="/cat=design">
+          <Link className="link" to="/?category=design">
             <h6>design</h6>
           </Link>
-          <Link className="link" to="/cat=food">
+          <Link className="link" to="/?category=food">
             <h6>food</h6>
           </Link>
           <span>{currentUser?.username}</span>
