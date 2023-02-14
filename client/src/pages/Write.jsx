@@ -13,6 +13,7 @@ function Write() {
   const [file, setFile] = useState(null);
   const [category, setCategory] = useState(state?.category || "");
   const navigate = useNavigate();
+
   const upload = async () => {
     try {
       const formData = new FormData();

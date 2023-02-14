@@ -19,7 +19,7 @@ export const getPost = (req, res) => {
   database.query(q, [req.params.id], (err, data) => {
     if (err) return res.json(err);
 
-    return res.status(500).json(data[0]);
+    return res.status(200).json(data[0]);
   });
 };
 
